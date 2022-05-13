@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app version="2.5"
+         xmlns="http://java.sun.com/xml/ns/javaee"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://java.sun.com/xml/ns/javaee
+	http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd">
+
+
+
+    <!-- 从类路径下加载spring配置文件，classpath关键字特指类路径下的加载 -->
+    <context-param>
+        <param-name>contextConfigLocation</param-name>
+        <param-value>classpath:book-context.xml</param-value>
+    </context-param>
+    <!--.负责启动spring容器的监听器，它将引用1处的上下文参数获得spring配置文件的地址 -->
+    <listener>
+        <listener-class>
+            org.springframework.web.context.ContextLoaderListener
+        </listener-class>
+    </listener>
+    <!-- spring MVC 的主控servlet -->
+    <servlet>
+        <servlet-name>book</servlet-name>
+        <servlet-class>
+            org.springframework.web.servlet.DispatcherServlet
+        </servlet-class>
+        <load-on-startup>1</load-on-startup>
+    </servlet>
+    <!--spring MVC 的主控servlet 的映射URL -->
+    <servlet-mapping>
+        <servlet-name>book</servlet-name>
+        <url-pattern>/</url-pattern>
+    </servlet-mapping>
+
+    <filter>      <!--注意这里是filter，不要配置成servlet-->
+        <filter-name>CharactorFilter</filter-name>    <!--过滤器名称-->
+        <filter-class>com.library.filter.CharactorFilter</filter-class>  <!--过滤器的完整类名-->
+        <init-param>   <!--初始化参数-->
+            <param-name>encoding</param-name>  <!--参数名称-->
+            <param-value>utf-8</param-value>   <!--参数值-->
+        </init-param>
+    </filter>
+    <filter-mapping> <!--过滤器映射-->
+        <filter-name>CharactorFilter</filter-name><!--过滤器名称-->
+        <url-pattern>/*</url-pattern><!--URL映射，给所有页面处理乱码-->
+    </filter-mapping>
+
+
+</web-app>
